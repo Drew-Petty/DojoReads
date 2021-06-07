@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="row justify-content-between">
+        <h1 class="col-auto">Hello {{ user.name }}</h1>
+        <div class="col-auto">
+            <a href="/home">Home</a>
+            <a href="/logout">Log Out</a>
+        </div>
+    </div>
+    <h2>{{ book.title }}</h2>
+    <h3>Author: {{book.author}}</h3>
+    <div class="row justify-content-between" >
+        <div class="col-auto">
+            <h4>Reviews</h4>
+            {%for review in book.reviews.all%}
+            <div class="border-top border-5">
+                <p>Rating:{%if review.rating == 1%}
+                    <span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span>
+                    {% elif review.rating == 2 %}
+                    <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span>
+                    {% elif review.rating == 3 %}
+                    <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span>
+                    {% elif review.rating == 4 %}
+                    <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span>
+                    {% else %}
+                    <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span>
+                    {% endif %}
+                </p>
+                <p><a href="">{{review.by_user.alias}}</a> says: {{review.content}}</p>
+                <p>Posted on {{review.created_at|date:"F t, Y"}} 
+                {% if user.id == review.by_user.id %}
+                    <a href="/review/{{review.id}}">Delete this Review</a>
+                {% endif %}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <form class="col-6" action="/newReview/{{book.id}}" method="POST">
+            {% csrf_token %}
+            <legend>Add a Review</legend>
+            <textarea class="row w-100 form-control" name="content" ></textarea>
+            <p>Rating:
+            <select name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            stars</p>
+            <div class="row justify-content-end">
+                <input class="col-auto btn btn-primary" type="submit">
+            </div>
+            {% if messages %}
+        <div>
+            {% for message in messages %}
+                <h6 class="text-danger text-center">{{ message }}</h6>
+            {% endfor %}
+        </div>
+        {% endif %}
+        </form>
+    </div>
+</body>
+</html>

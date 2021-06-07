@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+    <h1>Welcome</h1>
+    <div class="container row">
+        <form class="col" action="register" method="POST">
+            {% csrf_token %}
+            <legend>Register</legend>
+            <div class="row">
+                <label class="col" for="name">Name:</label>
+                <input class="form-control col" type="text" name="name">
+            </div>
+            <div class="row">
+                <label class="col" for="alias">Alias:</label>
+                <input class="form-control col" type="text" name="alias">
+            </div>
+            <div class="row">
+                <label class="col" for="email">Email:</label>
+                <input class="form-control col" type="text" name="email">
+            </div>
+            <div class="row">
+                <label class="col" for="password">Password:</label>
+                <input class="form-control col" type="password" name="password">
+            </div>
+            <div class="row">
+                <label class="col" for="confirm">Confirm PW:</label>
+                <input class="form-control col" type="password" name="confirm">
+            </div>
+            <div class="row justify-content-end">
+                <input class="col-auto btn btn-primary" type="submit">
+            </div>
+        </form>
+        <form class="col" action="login" method="POST">
+            {% csrf_token %}
+            <legend>Login</legend>
+            <div class="row">
+                <label class="col" for="email">Email:</label>
+                <input class="form-control col" type="text" name="email">
+            </div>
+            <div class="row">
+                <label class="col" for="password">Password:</label>
+                <input class="form-control col" type="password" name="password">
+            </div>
+            
+            <div class="row justify-content-end">
+                <input class="col-auto btn btn-primary" type="submit">
+            </div>
+        </form>
+    </div>
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <h6 class="text-danger text-center">{{ message }}</h6>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

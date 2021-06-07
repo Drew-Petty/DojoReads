@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Reviews</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="row justify-content-between">
+        <h1 class="col-auto"></h1>
+        <div class="col-auto">
+            <a href="/home">Home</a>
+            <a href="/newBook">Add Book and Review</a>
+            <a href="/logout">Log Out</a>
+        </div>
+    </div>
+    <h1>User Alias: {{ user.alias }}</h1>
+    <h3>Name: {{ user.name }}</h3>
+    <h3>Email: {{ user.email }}</h3>
+    <h3>Total Reviews: {{ user.reviews.all|length }}</h3>
+    {% for review in user.reviews.all %}
+    <a class="d-block" href="/book/{{review.for_book.id}}">{{review.for_book.title}}</a>
+    {% endfor %}
+</body>
+</html>

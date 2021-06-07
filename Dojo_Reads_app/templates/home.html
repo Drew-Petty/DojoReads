@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="row justify-content-between">
+        <h1 class="col-auto">Hello {{ user.name }}</h1>
+        <div class="col-auto">
+            <a href="/newBook">Add Book and Review</a>
+            <a href="/logout">Log Out</a>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col">
+            <h2>Recent Book Reviews</h2>
+                {% for review in reviews %}
+                    <h2><a href="/book/{{ review.for_book.id }}">{{ review.for_book.title }}</a></h2>
+                    <p>Rating:{%if review.rating == 1%}
+                        <span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span>
+                        {% elif review.rating == 2 %}
+                        <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span>
+                        {% elif review.rating == 3 %}
+                        <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span><span class="text-warning">&#9734;</span>
+                        {% elif review.rating == 4 %}
+                        <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9734;</span>
+                        {% else %}
+                        <span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span><span class="text-warning">&#9733;</span>
+                        {% endif %}</p>
+                    <p><a href="/user/{{review.by_user.id}}">{{review.by_user.alias}}</a> says: {{review.content}}</p>
+                    <p>Posted on {{review.created_at|date:"F t, Y"}}</p>
+                {% endfor %}
+        </div>
+
+
+        <div class="col">
+            <h2>Other Books with Reviews</h2>
+            <div class="overflow-auto h-25 border border-4">
+                {% for book in books %}
+                    <a class="d-block" href="/book/{{ book.id }}">{{ book.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book and Review</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="row justify-content-end">
+        <div class="col-auto">
+            <a href="/home">Home</a>
+            <a href="/logout">Log Out</a>
+        </div>
+    </div>
+    <form class="col-8" action="/createBook" method="POST">
+        {% csrf_token %}
+        <legend>Add a New Book Title and a Review</legend>
+        <div class="row">
+            <label class="col" for="title">Book Title:</label>
+            <input class="form-control col" type="text" name="title">
+        </div>
+        <label>Author:</label>
+        <div class="row">
+            <h6 class="col">Choose from the list:</h6>
+            <select name="selectAuthor" class="form-select col">
+                {% for author in authors %}
+                    <option value="{{ author.author }}">{{ author.author }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="row">
+            <h6 class="col">Or add a new author:</h6>
+            <input class="form-control col" type="text" name="author">
+        </div>
+        <div class="row">
+            <label class="col" for="content">Review:</label>
+            <textarea class="form-control col" name="content"></textarea>
+        </div>
+        <div>
+            <label class="col" for="rating">Rating</label>
+            <select class="col col-auto" name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="row justify-content-end">
+            <input class="col-auto btn btn-primary" type="submit">
+        </div>
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+                <h6 class="text-danger text-center">{{ message }}</h6>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </form>
+</body>
+</html>
